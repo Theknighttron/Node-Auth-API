@@ -1,8 +1,6 @@
 /**
  * All configuration parameters.
  */
-
-
 module.exports = {
     HOST: "localhost",
     USER: "admin",
