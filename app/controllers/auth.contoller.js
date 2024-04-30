@@ -40,3 +40,80 @@ exports.signup = async (req, res) => {
     }
 
 };
+
+
+exports.signin = async (req, res) => {
+    try {
+        // find username of the request in the database
+        const user = await User.findOne({
+            where: {
+                username: req.body.username,
+            },
+        });
+
+        if (!user) {
+            return res.status(404).send({ message: "User Not Found." });
+        }
+
+        // Compare password with password stored in the database with bcryp
+        const passwordIsValid = bcrypt.compareSync(
+            req.body.pasword,
+            user.password
+        );
+
+        if (!passwordIsValid) {
+            return res.status(401).send({
+                message: "Invalid Password!",
+            });
+        }
+
+
+        // Generate new token
+        const token = jwt.sign({ id: user.id },
+            config.secret,
+            {
+                algorithm: 'HS256',
+                allowInsecureKeySizes: true,
+                expiresIn: 86400, // 24 hours
+            });
+
+
+        let authorities = [];
+        const roles = await user.getRoles();
+        for (let i = 0; i < roles.length; i++) {
+            authorities.push("ROLE_" + roles[i].name.toUpperCase());
+        }
+
+        req.session.token = token;
+
+
+        // return user information & access Token in Cookies
+        return res.status(200).send({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            roles: authorities,
+        });
+    } catch (error) {
+        return res.status(500).send({ message: error.message });
+    }
+};
+
+
+exports.signout = async (req, res) => {
+    // cleanout session
+    try {
+        req.session = null;
+
+        return res.status(200).send({
+            message: "You've been signed out!"
+        });
+    } catch (err) {
+        this.next(err);
+    }
+};
+
+
+
+
+
