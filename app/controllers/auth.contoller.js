@@ -43,13 +43,13 @@ exports.signup = async (req, res) => {
 };
 
 
-export.signupCandidate = async (req, res) => {
+exports.signupCandidate = async (req, res) => {
     try {
-        cons candidate = await Candidate.create({
+        const candidate = await Candidate.create({
             firstname: req.body.firstname,
-            lastname: req.body.lasstname,
+            lastname: req.body.lastname,
             gender: req.body.gender,
-            student_id: req.body.gender,
+            student_id: req.body.student_id,
             email: req.body.email,
             course: req.body.course,
             level: req.body.level,
@@ -65,15 +65,17 @@ export.signupCandidate = async (req, res) => {
                 },
             });
 
-        const result = candidate.setRoles(roles);
-        if(result) res.send({   message: "Student registered successfully!" });
+            const result = candidate.setRoles(roles);
+            if (result) res.send({ message: "Student registered successfully!" });
         } else {
             const result = candidate.setRoles([1]);
-            if(result) res.send({   message: "Student registered successfully! "});
+            if (result) res.send({ message: "Student registered successfully! " });
         }
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
+
+};
 
 
 exports.signin = async (req, res) => {
