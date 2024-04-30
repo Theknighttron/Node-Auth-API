@@ -1,3 +1,3 @@
 module.exports = {
-    secrete: "area51-secrete-key"
+    secret: "area51-secrete-key"
 };
