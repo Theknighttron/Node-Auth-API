@@ -12,3 +12,8 @@ exports.userBoard = (req, res) => {
 exports.adminBoard = (req, res) => {
   res.status(200).send("Admin Content.");
 };
+
+// for candidate role
+exports.candidateBoard = (req, res) => {
+    res.status(200).send("Student Content.");
+}
