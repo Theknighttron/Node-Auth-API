@@ -40,30 +40,9 @@ function initial() {
     });
 }
 
-
-//Log all the incoming request body part so what is received can be check in console.
-// app.use(function(req, res, next) {
-//     console.log(req.body);
-//     next();
-// });
-
-
-//Call route's index /app/routes.js
-// app.use('/', routes);
-// app.use("/test", (res, req) => {
-//     res.json({ message: "Welcome to my application" })
-// })
-
-// //error handler, if request parameters do not fullfil validations a error message would be sent back as response.
-// app.use(function(err, req, res, next) {
-//     // specific for validation errors
-//     if (err instanceof validate.ValidationError) {
-
-//         return res.json({ status: err.status, errorMessage: err });
-
-//     }
-// });
-
+// routes
+require('./app/routes/auth.routes')(app);
+require('./app/routes/user.routes')(app);
 
 //Start listing application on defined port in configuration file.
 app.listen(config.app_port);
