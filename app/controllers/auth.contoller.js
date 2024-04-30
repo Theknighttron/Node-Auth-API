@@ -1,5 +1,5 @@
 const db = require("../models");
-const config = require("../config");
+const config = require("../config/auth.config.js");
 const User = db.user;
 const Role = db.role;
 
@@ -16,7 +16,7 @@ exports.signup = async (req, res) => {
         const user = await User.create({
             username: req.body.username,
             email: req.body.email,
-            pasword: bcrypt.hashSync(req.body.password, 8),
+            password: bcrypt.hashSync(req.body.password, 8),
         });
 
         if (req.body.roles) {
@@ -57,7 +57,7 @@ exports.signin = async (req, res) => {
 
         // Compare password with password stored in the database with bcryp
         const passwordIsValid = bcrypt.compareSync(
-            req.body.pasword,
+            req.body.password,
             user.password
         );
 
