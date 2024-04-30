@@ -2,21 +2,18 @@ const express = require('express');
 const logger = require('morgan');     //HTTP request logger middleware for node.js
 const cookieParser = require('cookie-parser');  //Parse Cookie header and populate req.cookies.
 const bodyParser = require('body-parser');
-// const validate = require('express-validation');
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 
 const app = express();
 //load config module to get configuration parameters about database.
-const config = require('./app/config');
-//Get route index so request can be redirect according to route.
-const routes = require('./app/routes');
 const db = require("./app/models");
 const Role = db.role;
 
 
 // middleware
 app.use(logger('dev'));
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -45,6 +42,7 @@ require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 
 //Start listing application on defined port in configuration file.
-app.listen(config.app_port);
-console.log('Express server listening on port ' + config.app_port);
-
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`Server is running on port $(PORT).`);
+});
