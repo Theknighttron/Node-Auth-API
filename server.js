@@ -11,6 +11,8 @@ const app = express();
 const config = require('./app/config');
 //Get route index so request can be redirect according to route.
 const routes = require('./app/routes');
+const db = require("./app/models");
+const Role = db.role;
 
 
 // middleware
@@ -21,18 +23,37 @@ app.use(cookieParser());
 app.use(cookieSession({ name: "auth-session", secret: "COOKIE_SECRET", httpOnly: true }))
 
 
+db.sequelize.sync({force: true}).then(() => {
+    console.log("Drop and Resync Db");
+    initial();
+})
+
+function initial() {
+    Role.create({
+        id: 1,
+        name: "user"
+    });
+
+    Role.create({
+        id: 2,
+        name: "admin"
+    });
+}
+
+
 //Log all the incoming request body part so what is received can be check in console.
-app.use(function(req, res, next) {
-    console.log(req.body);
-    next();
-});
+// app.use(function(req, res, next) {
+//     console.log(req.body);
+//     next();
+// });
 
 
 //Call route's index /app/routes.js
-app.use('/', routes);
-app.use("/test", (res, req) => {
-    res.json({ message: "Welcome to my application" })
-})
+// app.use('/', routes);
+// app.use("/test", (res, req) => {
+//     res.json({ message: "Welcome to my application" })
+// })
+
 // //error handler, if request parameters do not fullfil validations a error message would be sent back as response.
 // app.use(function(err, req, res, next) {
 //     // specific for validation errors
