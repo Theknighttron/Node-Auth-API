@@ -23,6 +23,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
+db.candidate = require("../models/candidate.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
@@ -34,6 +35,6 @@ db.user.belongsToMany(db.role, {
 });
 
 
-db.ROLES = ["user", "admin"];
+db.ROLES = ["user","candidate", "admin"];
 
 module.exports = db;

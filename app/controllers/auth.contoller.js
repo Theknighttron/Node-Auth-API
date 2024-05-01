@@ -2,6 +2,7 @@ const db = require("../models");
 const config = require("../config/auth.config.js");
 const User = db.user;
 const Role = db.role;
+const Candidate = db.candidate;
 
 const Op = db.Sequelize.Op;
 
@@ -35,6 +36,27 @@ exports.signup = async (req, res) => {
             const result = user.setRoles([1]);
             if (result) res.send({ message: "User registered successfully!" });
         }
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+
+};
+
+
+exports.signupCandidate = async (req, res) => {
+    try {
+        const candidate = await Candidate.create({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            gender: req.body.gender,
+            student_id: req.body.student_id,
+            email: req.body.email,
+            course: req.body.course,
+            level: req.body.level,
+        });
+
+
+        res.send({ message: "Student registered successfully! " });
     } catch (error) {
         res.status(500).send({ message: error.message });
     }

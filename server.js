@@ -32,7 +32,12 @@ function initial() {
     });
 
     Role.create({
-        id: 2,
+        id:2,
+        name: "candidate"
+    });
+
+    Role.create({
+        id: 3,
         name: "admin"
     });
 }
