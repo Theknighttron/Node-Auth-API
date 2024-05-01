@@ -34,10 +34,13 @@ exports.getUserProfile = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
 // for admin role
 exports.adminBoard = (req, res) => {
     res.status(200).send("Admin Content.");
 };
+
 
 // get list of all student from the database
 exports.getCandidates = async (req, res) => {
@@ -55,6 +58,7 @@ exports.getCandidates = async (req, res) => {
         res.status(500).send({  message: error.message });
     }
 }
+
 
 exports.getCandidateByStudentId = async (req, res) => {
     const studentId = req.params.student_id;
@@ -75,6 +79,7 @@ exports.getCandidateByStudentId = async (req, res) => {
         res.status(500).send({  message: error.message });
     }
 };
+
 
 
 exports.updateStudent = async (req, res) => {
@@ -108,6 +113,7 @@ exports.updateStudent = async (req, res) => {
 }
 
 
+
 exports.deleteStudent = async (req, res) => {
     const studentId = req.params.student_id;
 
@@ -131,6 +137,7 @@ exports.deleteStudent = async (req, res) => {
 };
 
 
+
 exports.getAttendanceByDate = async (req, res) => {
     const date = req.params.date;
 
@@ -147,6 +154,7 @@ exports.getAttendanceByDate = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 
 exports.exportAttendanceData = async (req, res) => {

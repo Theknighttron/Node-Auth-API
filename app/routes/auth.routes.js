@@ -21,7 +21,7 @@ module.exports = function(app) {
 
     app.post("/api/auth/signin", controller.signin);
 
-    app.post("/api/auth/signup/student", controller.signupCandidate);
+    app.post("/api/register/student", controller.signupCandidate);
 
     app.post(
         "/api/attendance",

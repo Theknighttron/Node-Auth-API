@@ -10,12 +10,18 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/api/test/all", controller.allAccess);
+    app.get("/api/all/test", controller.allAccess);
 
     app.get(
-        "/api/test/user",
+        "/api/user/test",
         [authJwt.verifyToken],
         controller.userBoard
+    );
+
+    app.get(
+        "/api/user/profile",
+        [authJwt.verifyToken],
+        controller.getUserProfile
     );
 
     app.get(
@@ -25,25 +31,25 @@ module.exports = function(app) {
     );
 
     app.get(
-        "/api/candidate/allcandidate",
+        "/api/students",
         [authJwt.verifyToken],
         controller.getCandidates
     );
 
     app.get(
-        "/api/candidate/:student_id",
+        "/api/student/:student_id",
         [authJwt.verifyToken],
         controller.getCandidateByStudentId
     );
 
     app.put(
-        "/api/candidate/:student_id",
+        "/api/student/:student_id",
         [authJwt.verifyToken],
         controller.updateStudent
     );
 
     app.delete(
-        "/api/candidate/:student_id",
+        "/api/student/:student_id",
         [authJwt.verifyToken],
         controller.deleteStudent
     );
