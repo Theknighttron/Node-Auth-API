@@ -1,4 +1,5 @@
 const db = require("../models");
+const User = db.user;
 const Candidate = db.candidate;
 const Attendance = db.attendance;
 const { parse } = require('json2csv');
@@ -15,10 +16,90 @@ exports.userBoard = (req, res) => {
     res.status(200).send("User Content.");
 };
 
+
+exports.getUserProfile = async (req, res) => {
+    try {
+        // Retrieve user profile information
+        const user = await User.findByPk(req.userId, {
+            attributes: { exclude: ["password"] } // Exclude password field from the response
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Send the profile information in the response
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+exports.updateUserProfile = async (req, res) => {
+    const { id } = req.params.id;
+    const { username, email} = req.body;
+
+    try {
+        // Retrieve user profile information
+        let user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Update user profile information with the provided data
+        user.username = username;
+        user.email = email;
+
+        // If a new password is provided, update the password
+        if (password) {
+            // Hash the new password
+            const hashedPassword = bcrypt.hashSync(password, 8);
+            user.password = hashedPassword;
+        }
+
+        // Save the updated profile information to the database
+        await user.save();
+
+        // Send a success response
+        res.status(200).json({ message: "User profile updated successfully." });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+exports.deleteUserProfile = async (req, res) => {
+    const { id } = req.params.id;
+
+    try {
+        // Retrieve user profile information
+        let user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Delete the user profile information from the database
+        await user.destroy();
+
+        // Send a success response
+        res.status(200).json({ message: "User profile deleted successfully." });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
 // for admin role
 exports.adminBoard = (req, res) => {
     res.status(200).send("Admin Content.");
 };
+
 
 // get list of all student from the database
 exports.getCandidates = async (req, res) => {
@@ -36,6 +117,7 @@ exports.getCandidates = async (req, res) => {
         res.status(500).send({  message: error.message });
     }
 }
+
 
 exports.getCandidateByStudentId = async (req, res) => {
     const studentId = req.params.student_id;
@@ -56,6 +138,7 @@ exports.getCandidateByStudentId = async (req, res) => {
         res.status(500).send({  message: error.message });
     }
 };
+
 
 
 exports.updateStudent = async (req, res) => {
@@ -89,6 +172,7 @@ exports.updateStudent = async (req, res) => {
 }
 
 
+
 exports.deleteStudent = async (req, res) => {
     const studentId = req.params.student_id;
 
@@ -112,6 +196,7 @@ exports.deleteStudent = async (req, res) => {
 };
 
 
+
 exports.getAttendanceByDate = async (req, res) => {
     const date = req.params.date;
 
@@ -128,6 +213,7 @@ exports.getAttendanceByDate = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 
 exports.exportAttendanceData = async (req, res) => {

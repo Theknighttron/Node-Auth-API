@@ -10,52 +10,70 @@ module.exports = function(app) {
         next();
     });
 
-    app.get("/api/test/all", controller.allAccess);
+    app.get("/api/all/test", controller.allAccess);
 
     app.get(
-        "/api/test/user",
+        "/api/user/test",
         [authJwt.verifyToken],
         controller.userBoard
     );
 
     app.get(
-        "/api/test/admin",
+        "/api/user/profile",
+        [authJwt.verifyToken],
+        controller.getUserProfile
+    );
+
+    app.put(
+        "/api/user/profile",
+        [authJwt.verifyToken],
+        controller.updateUserProfile
+    );
+
+
+    app.delete(
+        "/api/user/profile",
+        [authJwt.verifyToken],
+        controller.deleteUserProfile
+    );
+    app.get(
+        "/api/admin/test",
         [authJwt.verifyToken, authJwt.isAdmin],
         controller.adminBoard
     );
 
     app.get(
-        "/api/candidate/allcandidate",
+        "/api/students",
         [authJwt.verifyToken],
         controller.getCandidates
     );
 
     app.get(
-        "/api/candidate/:student_id",
+        "/api/student/:student_id",
         [authJwt.verifyToken],
         controller.getCandidateByStudentId
     );
 
     app.put(
-        "/api/candidate/:student_id",
+        "/api/student/:student_id",
         [authJwt.verifyToken],
         controller.updateStudent
     );
 
     app.delete(
-        "/api/candidate/:student_id",
+        "/api/student/:student_id",
         [authJwt.verifyToken],
         controller.deleteStudent
     );
 
     app.get(
-        "/api/attendance/:date",
+        "/api/student/attendance/:date",
         [authJwt.verifyToken],
         controller.getAttendanceByDate
     );
 
     app.get(
-        "/api/attendance/export/:date",
+        "/api/student/attendance/export/:date",
         [authJwt.verifyToken],
         controller.exportAttendanceData
     );
