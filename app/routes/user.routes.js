@@ -47,4 +47,10 @@ module.exports = function(app) {
         [authJwt.verifyToken],
         controller.deleteStudent
     );
+
+    app.get(
+        "/api/attendance/:date",
+        [authJwt.verifyToken],
+        controller.getAttendanceByDate
+    );
 };
