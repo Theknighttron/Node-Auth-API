@@ -56,21 +56,7 @@ exports.signupCandidate = async (req, res) => {
         });
 
 
-        if (req.body.roles) {
-            const roles = await Role.findAll({
-                where: {
-                    name: {
-                        [Op.or]: req.body.roles,
-                    },
-                },
-            });
-
-            const result = candidate.setRoles(roles);
-            if (result) res.send({ message: "Student registered successfully!" });
-        } else {
-            const result = candidate.setRoles([1]);
-            if (result) res.send({ message: "Student registered successfully! " });
-        }
+        res.send({ message: "Student registered successfully! " });
     } catch (error) {
         res.status(500).send({ message: error.message });
     }

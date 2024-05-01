@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 
 module.exports = (sequelize, Sequelize) => {
-    const Candidate = sequelize.define("candidate", {
+    const Candidate = sequelize.define("student", {
         firstname: {
             type: Sequelize.STRING,
             allowNull: false
