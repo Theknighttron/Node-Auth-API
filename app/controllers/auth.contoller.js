@@ -122,6 +122,25 @@ exports.signin = async (req, res) => {
 };
 
 
+exports.markAttendance = async (req, res) => {
+    const { student_id, status } = req.body;
+
+    try {
+        // Create new attendance record
+        await Attendance.create({
+            student_id,
+            status,
+        });
+
+        // Send a success response
+        res.status(200).json({ message: "Attendance marked successfully" });
+    } catch (error) {
+        // Handle errors
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 exports.signout = async (req, res) => {
     // cleanout session
     try {

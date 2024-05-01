@@ -16,8 +16,8 @@ module.exports = (sequelize, Sequelize) => {
         },
         student_id: {
             type: Sequelize.STRING,
+            primaryKey: true,
             allowNull: false,
-            unique: true
         },
         email: {
             type: Sequelize.STRING,

@@ -1,5 +1,8 @@
 const db = require("../models");
 const Candidate = db.candidate;
+const Attendance = db.attendance;
+const { parse } = require('json2csv');
+const fs = require('fs');
 
 
 // for public access
@@ -109,3 +112,47 @@ exports.deleteStudent = async (req, res) => {
 };
 
 
+exports.getAttendanceByDate = async (req, res) => {
+    const date = req.params.date;
+
+    try {
+        // Retrieve attendance records for the specified date
+        const attendanceRecords = await Attendance.findAll({
+            where: { date }
+        });
+
+        // Send the retrieved attendance records in the response
+        res.status(200).json(attendanceRecords);
+    } catch (error) {
+        // Handle errors
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+exports.exportAttendanceData = async (req, res) => {
+    const date = req.params.date;
+
+    try {
+        // Retrieve attendance data for the specified date
+        const attendanceData = await Attendance.findAll({
+            where: { date }
+        });
+
+        // Define fields for export (e.g., student_id, status, date)
+        const fields = ['student_id', 'status', 'date'];
+
+        // Convert attendance data to CSV format
+        const csv = parse(attendanceData, { fields });
+
+        // Set headers for the response to trigger download
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename=attendance_${date}.csv`);
+
+        // Send the formatted data as a downloadable file
+        res.status(200).send(csv);
+    } catch (error) {
+        // Handle errors
+        res.status(500).json({ message: error.message });
+    }
+};
