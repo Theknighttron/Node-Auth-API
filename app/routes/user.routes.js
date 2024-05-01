@@ -29,4 +29,10 @@ module.exports = function(app) {
         [authJwt.verifyToken],
         controller.getCandidates
     );
+
+    app.get(
+        "/api/candidate/:student_id:",
+        [authJwt.verifyToken],
+        controller.getCandidateByStudentId
+    );
 };
