@@ -25,7 +25,8 @@ module.exports = function(app) {
     );
 
     app.get(
-        "/api/test/candidate",
-        controller.candidateBoard
+        "/api/candidate/allcandidate",
+        [authJwt.verifyToken],
+        controller.getCandidates
     );
 };
