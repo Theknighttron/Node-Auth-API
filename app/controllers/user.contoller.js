@@ -1,6 +1,8 @@
 const db = require("../models");
 const Candidate = db.candidate;
 const Attendance = db.attendance;
+const { parse } = require('json2csv');
+const fs = require('fs');
 
 
 // for public access

@@ -53,4 +53,10 @@ module.exports = function(app) {
         [authJwt.verifyToken],
         controller.getAttendanceByDate
     );
+
+    app.get(
+        "/api/attendance/export/:date",
+        [authJwt.verifyToken],
+        controller.exportAttendanceData
+    );
 };
