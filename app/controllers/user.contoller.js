@@ -36,6 +36,40 @@ exports.getUserProfile = async (req, res) => {
 };
 
 
+
+exports.updateUserProfile = async (req, res) => {
+    const { id } = req.userId;
+    const { username, email} = req.body;
+
+    try {
+        // Retrieve the teacher's profile information
+        let user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Update the teacher's profile information with the provided data
+        user.username = username;
+        user.email = email;
+
+        // If a new password is provided, update the password
+        if (password) {
+            // Hash the new password
+            const hashedPassword = bcrypt.hashSync(password, 8);
+            user.password = hashedPassword;
+        }
+
+        // Save the updated profile information to the database
+        await user.save();
+
+        // Send a success response
+        res.status(200).json({ message: "User profile updated successfully." });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // for admin role
 exports.adminBoard = (req, res) => {
     res.status(200).send("Admin Content.");

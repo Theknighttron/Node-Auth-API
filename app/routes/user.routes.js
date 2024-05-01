@@ -24,8 +24,14 @@ module.exports = function(app) {
         controller.getUserProfile
     );
 
+    app.put(
+        "/api/user/profile",
+        [authJwt.verifyToken],
+        controller.updateUserProfile
+    );
+
     app.get(
-        "/api/test/admin",
+        "/api/admin/test",
         [authJwt.verifyToken, authJwt.isAdmin],
         controller.adminBoard
     );
@@ -55,13 +61,13 @@ module.exports = function(app) {
     );
 
     app.get(
-        "/api/attendance/:date",
+        "/api/student/attendance/:date",
         [authJwt.verifyToken],
         controller.getAttendanceByDate
     );
 
     app.get(
-        "/api/attendance/export/:date",
+        "/api/student/attendance/export/:date",
         [authJwt.verifyToken],
         controller.exportAttendanceData
     );
