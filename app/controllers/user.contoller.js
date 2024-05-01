@@ -126,3 +126,31 @@ exports.getAttendanceByDate = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+exports.exportAttendanceData = async (req, res) => {
+    const date = req.params.date;
+
+    try {
+        // Retrieve attendance data for the specified date
+        const attendanceData = await Attendance.findAll({
+            where: { date }
+        });
+
+        // Define fields for export (e.g., student_id, status, date)
+        const fields = ['student_id', 'status', 'date'];
+
+        // Convert attendance data to CSV format
+        const csv = parse(attendanceData, { fields });
+
+        // Set headers for the response to trigger download
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', `attachment; filename=attendance_${date}.csv`);
+
+        // Send the formatted data as a downloadable file
+        res.status(200).send(csv);
+    } catch (error) {
+        // Handle errors
+        res.status(500).json({ message: error.message });
+    }
+};
