@@ -41,4 +41,10 @@ module.exports = function(app) {
         [authJwt.verifyToken],
         controller.updateStudent
     );
+
+    app.delete(
+        "/api/candidate/:student_id",
+        [authJwt.verifyToken],
+        controller.deleteStudent
+    );
 };

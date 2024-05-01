@@ -84,3 +84,28 @@ exports.updateStudent = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+
+exports.deleteStudent = async (req, res) => {
+    const studentId = req.params.student_id;
+
+    try {
+        // Find student by student id
+        const student = await Candidate.findByPk(studentId);
+
+        // If student not found return 404
+        if(!student) {
+            return res.status(400).json({ message: "Student not found" });
+        }
+
+        // Delete the student record
+        await student.destroy();
+
+        // Send a success response
+        res.status(200).json({ message: "Student deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
