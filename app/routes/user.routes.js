@@ -31,7 +31,7 @@ module.exports = function(app) {
     );
 
     app.get(
-        "/api/candidate/:student_id:",
+        "/api/candidate/:student_id",
         [authJwt.verifyToken],
         controller.getCandidateByStudentId
     );
