@@ -19,7 +19,7 @@ exports.userBoard = (req, res) => {
 
 exports.getUserProfile = async (req, res) => {
     try {
-        // Retrieve teacher profile information
+        // Retrieve user profile information
         const user = await User.findByPk(req.userId, {
             attributes: { exclude: ["password"] } // Exclude password field from the response
         });
@@ -38,18 +38,18 @@ exports.getUserProfile = async (req, res) => {
 
 
 exports.updateUserProfile = async (req, res) => {
-    const { id } = req.userId;
+    const { id } = req.params.id;
     const { username, email} = req.body;
 
     try {
-        // Retrieve the teacher's profile information
+        // Retrieve user profile information
         let user = await User.findByPk(id);
 
         if (!user) {
             return res.status(404).json({ message: "User not found." });
         }
 
-        // Update the teacher's profile information with the provided data
+        // Update user profile information with the provided data
         user.username = username;
         user.email = email;
 
@@ -69,6 +69,31 @@ exports.updateUserProfile = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+
+exports.deleteUserProfile = async (req, res) => {
+    const { id } = req.params.id;
+
+    try {
+        // Retrieve user profile information
+        let user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Delete the user profile information from the database
+        await user.destroy();
+
+        // Send a success response
+        res.status(200).json({ message: "User profile deleted successfully." });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 
 // for admin role
 exports.adminBoard = (req, res) => {
