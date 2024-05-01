@@ -17,5 +17,8 @@ module.exports = (sequelize, Sequelize) => {
         },
     });
 
+ // Define the association with the Student model
+    Attendance.belongsTo(sequelize.models.student, { foreignKey: 'student_id', onDelete: 'CASCADE' });
+
     return Attendance;
 };

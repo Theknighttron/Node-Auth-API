@@ -1,5 +1,6 @@
 const db = require("../models");
 const Candidate = db.candidate;
+const Attendance = db.attendance;
 
 
 // for public access
@@ -107,5 +108,4 @@ exports.deleteStudent = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 
