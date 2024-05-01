@@ -109,3 +109,20 @@ exports.deleteStudent = async (req, res) => {
     }
 };
 
+
+exports.getAttendanceByDate = async (req, res) => {
+    const date = req.params.date;
+
+    try {
+        // Retrieve attendance records for the specified date
+        const attendanceRecords = await Attendance.findAll({
+            where: { date }
+        });
+
+        // Send the retrieved attendance records in the response
+        res.status(200).json(attendanceRecords);
+    } catch (error) {
+        // Handle errors
+        res.status(500).json({ message: error.message });
+    }
+};
