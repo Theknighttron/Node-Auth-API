@@ -1,0 +1,20 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+  db:
+    image: "mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "toor1234"
+      MYSQL_DATABASE: "authentication"
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "db@2024"
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+volumes:
+  db-data:
