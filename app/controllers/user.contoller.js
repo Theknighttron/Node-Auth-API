@@ -17,6 +17,12 @@ exports.userBoard = (req, res) => {
 };
 
 
+exports.ping = async (req, res) => {
+    res.status(200).send("Salma: do you know the ping pong game!!?.");
+}
+
+
+
 exports.getUserProfile = async (req, res) => {
     try {
         // Retrieve user profile information
